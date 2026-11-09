@@ -1,0 +1,40 @@
+#!/bin/sh
+# Pre-commit: tolak commit yang membawa file .env, pola kunci API umum, atau nilai dari .env.
+# Aktif lewat: git config core.hooksPath .githooks
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+# 1. File .env asli (yang boleh hanya .env.example)
+bad=$(printf '%s\n' "$staged" | grep -E '(^|/)\.env($|\.)' | grep -v -E '\.env\.example$')
+if [ -n "$bad" ]; then
+  echo "Commit ditolak: file secret ikut di-stage:"
+  printf '%s\n' "$bad"
+  exit 1
+fi
+
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+git diff --cached -U0 --diff-filter=ACM | grep -E '^\+' | grep -v -E '^\+\+\+ ' > "$tmp"
+
+# 2. Pola kunci API umum (Google, OpenAI, GitHub, Slack, kunci privat)
+if grep -q -E 'AIza[0-9A-Za-z_-]{35}|sk-(proj-)?[A-Za-z0-9_-]{32,}|gh[pousr]_[A-Za-z0-9]{36,}|xox[abprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY-----' "$tmp"; then
+  echo "Commit ditolak: ada pola kunci API di perubahan yang di-stage. Hapus nilainya dan simpan di .env."
+  exit 1
+fi
+
+# 3. Nilai dari .env (minimal 8 karakter) yang ikut tertulis di file lain
+if [ -f .env ]; then
+  while IFS= read -r line || [ -n "$line" ]; do
+    line=$(printf '%s' "$line" | tr -d '\r')
+    case "$line" in ''|\#*) continue ;; esac
+    line=${line#export }
+    val=${line#*=}
+    val=$(printf '%s' "$val" | sed -e 's/^["'\'']//' -e 's/["'\'']$//')
+    [ ${#val} -ge 8 ] || continue
+    if grep -q -F -- "$val" "$tmp"; then
+      echo "Commit ditolak: nilai dari .env ikut tertulis di perubahan yang di-stage."
+      exit 1
+    fi
+  done < .env
+fi
+exit 0

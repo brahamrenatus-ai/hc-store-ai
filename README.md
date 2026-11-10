@@ -8,10 +8,10 @@ Layanan AI bagian Next-Gen AI Engineer (AE) untuk aplikasi kasir dan dasbor **HC
 - **REST API berversi** (`/api/v1`) yang hanya dipanggil backend aplikasi kasir.
 
 ## Status
-Tahap persiapan (9 Nov 2026): spesifikasi sudah ada, kode belum.
+Kerangka layanan dan endpoint health tersedia.
 
 ## Dokumen
-- `docs/prd-ae.md`: PRD bagian AE v0.2 (spesifikasi, berbahasa Inggris).
+- `docs/prd-ae.md`: PRD bagian AE v0.2 (spesifikasi).
 - `docs/capstone.md`: checklist teknis, jadwal, dan batas cakupan capstone.
 
 ## Struktur
@@ -26,7 +26,21 @@ docs/       PRD dan dokumen pendukung
 ```
 
 ## Menjalankan
-Belum tersedia; ditulis saat kerangka layanan selesai. Nama variabel environment ada di `.env.example`; nilai aslinya disimpan di `.env`, yang tidak ikut git.
+1. Buat lingkungan virtual (Python 3.14) dan pasang dependensi:
+   ```sh
+   python -m venv .venv
+   .venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+   ```
+2. Pastikan file `.env` sudah dibuat dengan menyalin `.env.example`. Nilai `SERVICE_API_KEY` (minimal 16 karakter) wajib ada di `.env`.
+3. Jalankan pengujian dan linting:
+   ```sh
+   .venv\Scripts\python.exe -m pytest
+   .venv\Scripts\python.exe -m ruff check .
+   ```
+4. Jalankan server lokal:
+   ```sh
+   .venv\Scripts\python.exe -m uvicorn --factory app.main:create_app --port 8000
+   ```
 
 ## Setelah clone
 - Aktifkan hook pre-commit: `git config core.hooksPath .githooks`. Hook menolak commit yang membawa file `.env`, pola kunci API umum, atau nilai dari `.env`.

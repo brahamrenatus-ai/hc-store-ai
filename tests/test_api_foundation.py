@@ -1,4 +1,4 @@
-"""Test acceptance kerangka layanan (TASK-002, ROADMAP R2).
+"""Test kerangka layanan (PRD AE-FR-041, AE-FR-043, AE-FR-050, AE-FR-073, AE-FR-081).
 
 Mengunci perilaku bersama semua endpoint sesuai `docs/api-contract.md` v0.2:
 health (E1), autentikasi X-API-Key, amplop respons dan error, request ID,

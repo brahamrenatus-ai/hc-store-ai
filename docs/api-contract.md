@@ -2,7 +2,7 @@
 
 | Butir | Nilai |
 |---|---|
-| Status | **Draf v0.2, belum disepakati.** Usulan AE untuk workshop AE–FS Minggu 1 (20–26 Nov 2026) |
+| Status | **Draf v0.3, belum disepakati.** Usulan AE untuk workshop AE–FS Minggu 1 (20–26 Nov 2026) |
 | Diturunkan dari | `docs/prd-ae.md` v0.2: §11 (REST API), §12 (kontrak JSON), §18 (error dan teks cadangan) |
 | Pemilik | AE (layanan) dan FS (klien backend) |
 | Target beku | Akhir Minggu 1 (26 Nov 2026). Perubahan sesudahnya butuh persetujuan kedua pihak dan satu baris di §10 |
@@ -118,21 +118,27 @@ Request:
   "timezone": "Asia/Makassar",
   "sales": {
     "period": { "start": "2026-12-05", "end": "2026-12-05" },
-    "total_revenue": 4250000,
-    "transaction_count": 14,
-    "units_sold": 21,
+    "total_revenue": 4390000,
+    "transaction_count": 11,
+    "units_sold": 15,
     "product_sales": [
       { "product_id": "SH-0012", "name": "Sandal Jepit Hitam", "units_sold": 6, "revenue": 900000 },
-      { "product_id": "SH-0031", "name": "Sepatu Sneakers Putih", "units_sold": 3, "revenue": 1350000 }
+      { "product_id": "SH-0031", "name": "Sepatu Sneakers Putih", "units_sold": 3, "revenue": 1350000 },
+      { "product_id": "SH-0044", "name": "Sepatu Lari Biru", "units_sold": 2, "revenue": 1040000 },
+      { "product_id": "SH-0057", "name": "Sandal Gunung Coklat", "units_sold": 4, "revenue": 1100000 }
     ],
     "daily_breakdown": null
   },
   "previous_period": {
     "period": { "start": "2026-12-04", "end": "2026-12-04" },
-    "total_revenue": 3800000,
-    "transaction_count": 12,
-    "units_sold": 18,
-    "product_sales": []
+    "total_revenue": 2130000,
+    "transaction_count": 7,
+    "units_sold": 9,
+    "product_sales": [
+      { "product_id": "SH-0012", "name": "Sandal Jepit Hitam", "units_sold": 4, "revenue": 600000 },
+      { "product_id": "SH-0031", "name": "Sepatu Sneakers Putih", "units_sold": 2, "revenue": 900000 },
+      { "product_id": "SH-0068", "name": "Slip On Kanvas Abu", "units_sold": 3, "revenue": 630000 }
+    ]
   },
   "inventory": {
     "snapshot_at": "2026-12-05T21:00:00+08:00",
@@ -149,15 +155,20 @@ Request:
 | `date` | tanggal | Ya | Tanggal kalender yang valid, tidak sesudah hari ini menurut `timezone` |
 | `timezone` | string IANA | Ya | Nilai yang disepakati (§2) |
 | `sales.period` | `{start, end}` | Ya | Keduanya sama dengan `date` |
-| `sales.total_revenue`, `transaction_count`, `units_sold` | bilangan bulat ≥ 0 | Ya | Definisi metrik dari DS (OQ-06, OQ-15) |
-| `sales.product_sales[]` | list | Ya (boleh kosong) | `product_id` unik di dalam list; `units_sold` dan `revenue` bilangan bulat ≥ 0 |
+| `sales.total_revenue`, `transaction_count`, `units_sold` | bilangan bulat ≥ 0 | Ya | Definisi metrik dari DS (OQ-06, OQ-15). Bila `transaction_count` 0, `units_sold` dan `total_revenue` juga 0; bila tidak, 422 `INCONSISTENT_DATA` |
+| `sales.product_sales[]` | list, maks. 500 | Ya (boleh kosong) | Satu baris per produk terjual; `product_id` unik di dalam list; `units_sold` dan `revenue` bilangan bulat ≥ 0. Bila tidak kosong, jumlah `units_sold` dan jumlah `revenue` baris harus sama dengan `sales.units_sold` dan `sales.total_revenue`; bila tidak, 422 `INCONSISTENT_DATA`. List kosong berarti rincian tidak dikirim: ringkasan tanpa kalimat per produk, dicatat di `data_notes` |
+| `sales.daily_breakdown` | null | Tidak | Tidak dipakai di ringkasan harian; kosongkan atau null |
 | `product_id` | string 1–64 | Ya | ID yang sama di penjualan, stok, dan prediksi (OQ-07) |
 | `name` | string 1–120 | Ya | Hanya untuk tampilan; diperlakukan sebagai teks yang tidak dipercaya |
-| `previous_period` | objek | Tidak | Bentuk sama dengan `sales` tanpa `daily_breakdown`; tepat satu hari sebelumnya. Tidak dikirim → tidak ada kalimat perbandingan |
-| `inventory` | objek | Tidak | Tidak dikirim → tidak ada catatan stok |
+| `previous_period` | objek atau null | Tidak | Bentuk sama dengan `sales` tanpa `daily_breakdown`, dengan aturan konsistensi yang sama; tepat satu hari sebelumnya. Tidak dikirim → tidak ada kalimat perbandingan |
+| `inventory` | objek atau null | Tidak | Tidak dikirim → tidak ada catatan stok |
+| `inventory.snapshot_at` | timestamp ISO 8601 dengan offset | Ya bila `inventory` dikirim | Waktu data stok diambil |
+| `inventory.items[]` | list, maks. 2 000 | Ya bila `inventory` dikirim | `product_id` unik di dalam list. Produk yang terjual tetapi tidak ada di sini dicatat di `data_notes`; produk yang ada di sini tetapi tidak terjual itu normal |
 | `inventory.items[].current_stock` | bilangan bulat ≥ 0 | Ya bila `inventory` dikirim | Stok pada `snapshot_at` |
 | `inventory.items[].reorder_level` | bilangan bulat ≥ 0 atau null | Tidak | Null → aturan stok menipis global (OQ-09) |
 | `options.language` | string | Tidak | Hanya `id` di MVP (OQ-24) |
+
+Semua "bilangan bulat" berarti angka JSON bulat: `1.0`, `"10"`, dan `true` ditolak dengan 422 `VALIDATION_ERROR`, supaya selisih tipe di FS ketahuan sejak awal. Aturan yang menyangkut beberapa field (tanggal dan periode) diperiksa sesudah bentuk request valid; aturan konsistensi angka diperiksa paling akhir.
 
 Respons 200:
 
@@ -168,10 +179,10 @@ Respons 200:
     "summary_type": "daily",
     "period": { "start": "2026-12-05", "end": "2026-12-05" },
     "generation_mode": "ai",
-    "summary_text": "Pada 5 Desember 2026 terjadi 14 transaksi dengan total pendapatan Rp 4.250.000. ...",
+    "summary_text": "Pada 5 Desember 2026 terjadi 11 transaksi dengan total pendapatan Rp 4.390.000. ...",
     "key_figures": [
-      { "key": "total_revenue", "label": "Total pendapatan", "value": 4250000, "unit": "IDR", "display": "Rp 4.250.000", "source": "sales.total_revenue" },
-      { "key": "transaction_count", "label": "Jumlah transaksi", "value": 14, "unit": "transaksi", "display": "14", "source": "sales.transaction_count" }
+      { "key": "total_revenue", "label": "Total pendapatan", "value": 4390000, "unit": "IDR", "display": "Rp 4.390.000", "source": "sales.total_revenue" },
+      { "key": "transaction_count", "label": "Jumlah transaksi", "value": 11, "unit": "transaksi", "display": "11", "source": "sales.transaction_count" }
     ],
     "observations": [
       { "id": "obs_top_product", "text": "...", "evidence": ["sales.product_sales"] }
@@ -203,10 +214,10 @@ Respons 200:
 
 | Field | Aturan |
 |---|---|
-| `date` | Tidak dipakai; periodenya `sales.period` |
-| `sales.period` | `end − start = 6 hari` (7 hari inklusif). Minggu dimulai hari Senin **[USULAN]** (OQ-08) |
-| `sales.daily_breakdown` | Wajib, list `{ "date", "total_revenue", "transaction_count", "units_sold" }`; tanggal di dalam periode, tanpa duplikat. Hari yang tidak ada = penjualan nol |
-| Konsistensi | Jumlah `daily_breakdown` harus sama dengan total periode; bila tidak, 422 `INCONSISTENT_DATA` |
+| `date` | Tidak dikirim (field tak dikenal → 422); periodenya `sales.period` |
+| `sales.period` | `end − start = 6 hari` (7 hari inklusif), dan `end` tidak sesudah hari ini menurut `timezone` **[USULAN]**: minggu yang belum selesai ditolak, supaya minggu separuh jalan tidak dibandingkan dengan minggu lalu yang penuh. Minggu dimulai hari Senin **[USULAN]** (OQ-08) |
+| `sales.daily_breakdown` | Wajib, list maks. 7 `{ "date", "total_revenue", "transaction_count", "units_sold" }`; tanggal di dalam periode, tanpa duplikat. Hari yang tidak ada = penjualan nol |
+| Konsistensi | Jumlah `daily_breakdown` harus sama dengan total periode untuk ketiga metrik; bila tidak, 422 `INCONSISTENT_DATA`. Aturan rincian produk sama dengan E2 |
 | `previous_period` | Bila dikirim, juga 7 hari dan tepat sebelum `sales.period` |
 
 Respons: seperti E2 dengan `summary_type: "weekly"` dan `prompt_version: "weekly-v0.1"`.
@@ -302,7 +313,7 @@ Keterbatasan v1: hari ketika stok habis tercatat sebagai penjualan nol, padahal 
 | 413 | `PAYLOAD_TOO_LARGE` | Body melebihi batas §4 | false |
 | 415 | `UNSUPPORTED_MEDIA_TYPE` | Content type bukan JSON | false |
 | 422 | `VALIDATION_ERROR` | Gagal skema, rentang, atau ada field tak dikenal | false |
-| 422 | `INCONSISTENT_DATA` | Total tidak cocok dengan rincian per produk atau per hari | false |
+| 422 | `INCONSISTENT_DATA` | Total tidak cocok dengan rincian per produk atau per hari, atau transaksi nol dengan unit atau pendapatan bukan nol | false |
 | 429 | `RATE_LIMITED` | Batas request masuk terlampaui (nilai: OQ-17) | true, sesudah `Retry-After` |
 | 500 | `INTERNAL_ERROR` | Kegagalan tak terduga | true |
 | 500 | `PREDICTION_FAILED` | Semua produk gagal diprediksi | false |
@@ -344,6 +355,7 @@ Supaya FS tidak terhambat sebelum layanan AE live (PRD §21), AE menerbitkan con
 | 7 | Siapa yang menyusun agregat di §5 E2 (query FS dengan definisi metrik DS) | FS + DS | OQ-06 |
 | 8 | Apakah FS menyimpan tanggal produk masuk katalog (dipakai untuk awal `history` E6) | FS | OQ-11 |
 | 9 | Apakah ada produk selain alas kaki; bila ada, `unit` menjadi `pcs` atau satuan per produk | FS + pemilik | OQ-07 |
+| 10 | `product_sales` berisi semua produk terjual, dan jumlah `revenue` per produk sama dengan `total_revenue` (termasuk cara membagi diskon tingkat transaksi ke produk); minggu yang belum selesai ditolak di E3 | FS + DS | OQ-06, OQ-19 |
 
 ## 10. Riwayat perubahan
 
@@ -351,3 +363,4 @@ Supaya FS tidak terhambat sebelum layanan AE live (PRD §21), AE menerbitkan con
 |---|---|---|---|
 | 0.1 | 2026-11-09 | Draf dari PRD v0.2 §11–12, §18 untuk workshop Minggu 1 | belum disepakati |
 | 0.2 | 2026-11-10 | §3: maks. 2 panggilan provider per request, retry memakai sisa batas total. §4: body maks. 1 MB, `history` maks. 90 hari. §5: E1 hanya `ok`/`degraded` dengan status per modul; E6 riwayat harian lengkap dan pembulatan `predicted_units`. §6: 405 `METHOD_NOT_ALLOWED`, format `details[].field`, respons 5xx tanpa amplop AE. §7: rincian opsi B. §9: butir 8–9 | belum disepakati |
+| 0.3 | 2026-11-12 | §5 E2: contoh request dan respons dibuat konsisten (jumlah baris produk = total); aturan rincian produk, transaksi nol, `inventory.snapshot_at` wajib dengan offset, `items` unik dan maks. 2 000, bilangan bulat JSON yang ketat, urutan pemeriksaan. §5 E3: `date` tidak dikirim, `end` tidak sesudah hari ini, `daily_breakdown` maks. 7. §6: cakupan `INCONSISTENT_DATA`. §9: butir 10 | belum disepakati |

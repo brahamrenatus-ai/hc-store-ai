@@ -57,7 +57,7 @@ Bila DS lebih mudah menyerahkan baris transaksi (satu baris per item per transak
 Dataset diserahkan bersama `data/README.md` yang menyebut: data ini sintetis; cara dan parameter pembangkitannya; seed; versi; keterbatasannya; dan bahwa tidak ada data asli toko maupun data pribadi di dalamnya (Checklist DS: Penyediaan Data untuk Model AI).
 
 ## 3. Pemeriksaan oleh AE saat dataset diterima
-AE menjalankan pemeriksaan ini (ROADMAP R13) dan mengembalikan hasilnya ke DS. Dataset yang gagal tidak dipakai melatih.
+AE menjalankan pemeriksaan ini (PRD AE-FR-034) dan mengembalikan hasilnya ke DS. Dataset yang gagal tidak dipakai melatih.
 
 | # | Pemeriksaan |
 |---|---|

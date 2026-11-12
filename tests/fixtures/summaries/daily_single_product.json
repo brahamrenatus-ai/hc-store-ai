@@ -1,0 +1,21 @@
+{
+  "date": "2026-12-05",
+  "timezone": "Asia/Makassar",
+  "sales": {
+    "period": {
+      "start": "2026-12-05",
+      "end": "2026-12-05"
+    },
+    "total_revenue": 600000,
+    "transaction_count": 1,
+    "units_sold": 1,
+    "product_sales": [
+      {
+        "product_id": "SH-0073",
+        "name": "Sepatu Pantofel Hitam",
+        "units_sold": 1,
+        "revenue": 600000
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "timezone": "Asia/Makassar",
+  "sales": {
+    "period": {
+      "start": "2026-11-30",
+      "end": "2026-12-06"
+    },
+    "total_revenue": 4350000,
+    "transaction_count": 13,
+    "units_sold": 18,
+    "product_sales": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "units_sold": 10,
+        "revenue": 1500000
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "units_sold": 6,
+        "revenue": 1650000
+      },
+      {
+        "product_id": "SH-0073",
+        "name": "Sepatu Pantofel Hitam",
+        "units_sold": 2,
+        "revenue": 1200000
+      }
+    ],
+    "daily_breakdown": [
+      {
+        "date": "2026-11-30",
+        "total_revenue": 900000,
+        "transaction_count": 3,
+        "units_sold": 4
+      },
+      {
+        "date": "2026-12-01",
+        "total_revenue": 750000,
+        "transaction_count": 2,
+        "units_sold": 3
+      },
+      {
+        "date": "2026-12-03",
+        "total_revenue": 1200000,
+        "transaction_count": 3,
+        "units_sold": 4
+      },
+      {
+        "date": "2026-12-05",
+        "total_revenue": 900000,
+        "transaction_count": 3,
+        "units_sold": 4
+      },
+      {
+        "date": "2026-12-04",
+        "total_revenue": 600000,
+        "transaction_count": 2,
+        "units_sold": 3
+      }
+    ]
+  },
+  "inventory": {
+    "snapshot_at": "2026-12-06T21:00:00+08:00",
+    "items": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "current_stock": 3,
+        "reorder_level": 5
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "current_stock": 8,
+        "reorder_level": null
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "current_stock": 5,
+        "reorder_level": null
+      }
+    ]
+  },
+  "options": {
+    "language": "id"
+  }
+}

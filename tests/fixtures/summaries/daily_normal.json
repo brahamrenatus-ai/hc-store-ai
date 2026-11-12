@@ -1,0 +1,113 @@
+{
+  "date": "2026-12-05",
+  "timezone": "Asia/Makassar",
+  "sales": {
+    "period": {
+      "start": "2026-12-05",
+      "end": "2026-12-05"
+    },
+    "total_revenue": 4390000,
+    "transaction_count": 11,
+    "units_sold": 15,
+    "product_sales": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "units_sold": 6,
+        "revenue": 900000
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "units_sold": 3,
+        "revenue": 1350000
+      },
+      {
+        "product_id": "SH-0044",
+        "name": "Sepatu Lari Biru",
+        "units_sold": 2,
+        "revenue": 1040000
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "units_sold": 4,
+        "revenue": 1100000
+      }
+    ],
+    "daily_breakdown": null
+  },
+  "previous_period": {
+    "period": {
+      "start": "2026-12-04",
+      "end": "2026-12-04"
+    },
+    "total_revenue": 2130000,
+    "transaction_count": 7,
+    "units_sold": 9,
+    "product_sales": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "units_sold": 4,
+        "revenue": 600000
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "units_sold": 2,
+        "revenue": 900000
+      },
+      {
+        "product_id": "SH-0068",
+        "name": "Slip On Kanvas Abu",
+        "units_sold": 3,
+        "revenue": 630000
+      }
+    ]
+  },
+  "inventory": {
+    "snapshot_at": "2026-12-05T21:00:00+08:00",
+    "items": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "current_stock": 4,
+        "reorder_level": 5
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "current_stock": 12,
+        "reorder_level": null
+      },
+      {
+        "product_id": "SH-0044",
+        "name": "Sepatu Lari Biru",
+        "current_stock": 0,
+        "reorder_level": 3
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "current_stock": 7,
+        "reorder_level": 5
+      },
+      {
+        "product_id": "SH-0068",
+        "name": "Slip On Kanvas Abu",
+        "current_stock": 9,
+        "reorder_level": null
+      },
+      {
+        "product_id": "SH-0073",
+        "name": "Sepatu Pantofel Hitam",
+        "current_stock": 2,
+        "reorder_level": null
+      }
+    ]
+  },
+  "options": {
+    "language": "id"
+  }
+}

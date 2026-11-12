@@ -1,0 +1,179 @@
+{
+  "timezone": "Asia/Makassar",
+  "sales": {
+    "period": {
+      "start": "2026-11-30",
+      "end": "2026-12-06"
+    },
+    "total_revenue": 21060000,
+    "transaction_count": 48,
+    "units_sold": 72,
+    "product_sales": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "units_sold": 25,
+        "revenue": 3750000
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "units_sold": 12,
+        "revenue": 5400000
+      },
+      {
+        "product_id": "SH-0044",
+        "name": "Sepatu Lari Biru",
+        "units_sold": 8,
+        "revenue": 4160000
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "units_sold": 14,
+        "revenue": 3850000
+      },
+      {
+        "product_id": "SH-0068",
+        "name": "Slip On Kanvas Abu",
+        "units_sold": 10,
+        "revenue": 2100000
+      },
+      {
+        "product_id": "SH-0073",
+        "name": "Sepatu Pantofel Hitam",
+        "units_sold": 3,
+        "revenue": 1800000
+      }
+    ],
+    "daily_breakdown": [
+      {
+        "date": "2026-11-30",
+        "total_revenue": 2100000,
+        "transaction_count": 5,
+        "units_sold": 8
+      },
+      {
+        "date": "2026-12-01",
+        "total_revenue": 2450000,
+        "transaction_count": 6,
+        "units_sold": 9
+      },
+      {
+        "date": "2026-12-02",
+        "total_revenue": 1900000,
+        "transaction_count": 4,
+        "units_sold": 7
+      },
+      {
+        "date": "2026-12-03",
+        "total_revenue": 2600000,
+        "transaction_count": 6,
+        "units_sold": 9
+      },
+      {
+        "date": "2026-12-04",
+        "total_revenue": 3150000,
+        "transaction_count": 7,
+        "units_sold": 11
+      },
+      {
+        "date": "2026-12-05",
+        "total_revenue": 4800000,
+        "transaction_count": 11,
+        "units_sold": 15
+      },
+      {
+        "date": "2026-12-06",
+        "total_revenue": 4060000,
+        "transaction_count": 9,
+        "units_sold": 13
+      }
+    ]
+  },
+  "previous_period": {
+    "period": {
+      "start": "2026-11-23",
+      "end": "2026-11-29"
+    },
+    "total_revenue": 16465000,
+    "transaction_count": 40,
+    "units_sold": 56,
+    "product_sales": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "units_sold": 20,
+        "revenue": 3000000
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "units_sold": 10,
+        "revenue": 4500000
+      },
+      {
+        "product_id": "SH-0044",
+        "name": "Sepatu Lari Biru",
+        "units_sold": 9,
+        "revenue": 4680000
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "units_sold": 11,
+        "revenue": 3025000
+      },
+      {
+        "product_id": "SH-0068",
+        "name": "Slip On Kanvas Abu",
+        "units_sold": 6,
+        "revenue": 1260000
+      }
+    ]
+  },
+  "inventory": {
+    "snapshot_at": "2026-12-06T21:00:00+08:00",
+    "items": [
+      {
+        "product_id": "SH-0012",
+        "name": "Sandal Jepit Hitam",
+        "current_stock": 4,
+        "reorder_level": 5
+      },
+      {
+        "product_id": "SH-0031",
+        "name": "Sepatu Sneakers Putih",
+        "current_stock": 12,
+        "reorder_level": null
+      },
+      {
+        "product_id": "SH-0044",
+        "name": "Sepatu Lari Biru",
+        "current_stock": 0,
+        "reorder_level": 3
+      },
+      {
+        "product_id": "SH-0057",
+        "name": "Sandal Gunung Coklat",
+        "current_stock": 7,
+        "reorder_level": 5
+      },
+      {
+        "product_id": "SH-0068",
+        "name": "Slip On Kanvas Abu",
+        "current_stock": 9,
+        "reorder_level": null
+      },
+      {
+        "product_id": "SH-0073",
+        "name": "Sepatu Pantofel Hitam",
+        "current_stock": 2,
+        "reorder_level": null
+      }
+    ]
+  },
+  "options": {
+    "language": "id"
+  }
+}

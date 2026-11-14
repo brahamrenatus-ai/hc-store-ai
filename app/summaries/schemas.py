@@ -1,5 +1,7 @@
 """Skema Pydantic untuk request ringkasan penjualan harian dan mingguan."""
 
+from __future__ import annotations
+
 import datetime as dt
 from typing import Annotated, Literal
 from zoneinfo import available_timezones

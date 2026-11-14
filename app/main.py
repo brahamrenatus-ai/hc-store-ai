@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 
 import app as app_package
-from app.api import health, summaries
+from app.api import health
 from app.config import Settings
 from app.errors import register_exception_handlers
 from app.request_id import RequestIDMiddleware
@@ -31,6 +31,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     register_exception_handlers(app)
     app.add_middleware(RequestIDMiddleware)
     app.include_router(health.router)
-    app.include_router(summaries.router)
 
     return app

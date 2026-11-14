@@ -1,9 +1,0 @@
-K1: HTTP 200, data.status = degraded
-K2: HTTP 401, error.code = UNAUTHORIZED
-executor: error klien dari penyedia (4xx)
-K3: HTTP 200, generation_mode = template_fallback
-K4: HTTP 200, generation_mode = no_data, teks: Belum ada data penjualan untuk periode ini.
-executor: error klien dari penyedia (4xx)
-K5: HTTP 200, summary_type = weekly
-K6: HTTP 422, error.code = VALIDATION_ERROR
-K7: HTTP 422, error.code = VALIDATION_ERROR

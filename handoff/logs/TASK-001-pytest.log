@@ -1,0 +1,49 @@
+F............................F.......................................... [ 50%]
+........................................................................ [100%]
+================================== FAILURES ===================================
+________________________ test_health_shape_without_key ________________________
+
+client = <starlette.testclient.TestClient object at 0x0000024473E0A290>
+
+    def test_health_shape_without_key(client):
+        resp = client.get("/api/v1/health")
+        assert resp.status_code == 200
+        body = resp.json()
+        assert set(body) == {"request_id", "data", "meta"}
+        assert body["meta"] == {}
+        data = body["data"]
+        assert set(data) == {
+            "status",
+            "version",
+            "modules",
+            "model_loaded",
+            "provider_configured",
+            "timestamp",
+        }
+        assert data["version"] == app_package.__version__ == "0.1.0"
+        assert data["model_loaded"] is False
+>       assert data["provider_configured"] is False
+E       assert True is False
+
+tests\test_api_foundation.py:130: AssertionError
+_______________________ test_settings_read_environment ________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000024473F07A50>
+
+    def test_settings_read_environment(monkeypatch):
+        monkeypatch.setenv("SERVICE_API_KEY", "SENTINEL-env-key-0123456789")
+        monkeypatch.setenv("DOCS_ENABLED", "false")
+        settings = Settings(_env_file=None)
+        assert settings.service_api_key.get_secret_value() == "SENTINEL-env-key-0123456789"
+        assert settings.docs_enabled is False
+        assert settings.app_timezone == "Asia/Makassar"
+>       assert settings.provider_configured is False
+E       AssertionError: assert True is False
+E        +  where True = Settings(service_api_key=SecretStr('**********'), gemini_api_key=SecretStr('**********'), app_timezone='Asia/Makassar', docs_enabled=False).provider_configured
+
+tests\test_api_foundation.py:309: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_api_foundation.py::test_health_shape_without_key - assert True is False
+FAILED tests/test_api_foundation.py::test_settings_read_environment - AssertionError: assert True is False
+ +  where True = Settings(service_api_key=SecretStr('**********'), gemini_api_key=SecretStr('**********'), app_timezone='Asia/Makassar', docs_enabled=False).provider_configured
+2 failed, 142 passed in 2.81s

@@ -1,0 +1,4 @@
+product_id,name,category,price,listed_from,listed_until,unit
+P001,Sandal Kulit Sintetis A,sandal,250000,2026-09-01,,pairs
+P002,Sneakers Sintetis B,sneakers,400000,2026-09-15,,pairs
+P003,Sepatu Formal Sintetis C,formal,150000,2026-09-01,2026-10-20,pairs

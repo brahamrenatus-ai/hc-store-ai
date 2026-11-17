@@ -21,3 +21,5 @@ data/private/
 # OS
 .DS_Store
 Thumbs.db
+handoff/
+.agents/
